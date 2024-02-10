@@ -8,9 +8,9 @@
     $ git clone
     $ cd labify
     $ vercel env pull .env
-    $ pnpm dlx prisma generate
-
     $ npm install
+
+    $ pnpm dlx prisma generate
     ```
 
 ## Prisma Commands
