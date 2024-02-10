@@ -1,4 +1,4 @@
-## [<img width="200" src="https://t4.ftcdn.net/jpg/01/78/76/71/360_F_178767166_PClhMfl7foAUMqscawjzOjDy6r5TjpLz.jpg">](https://labify-delta.vercel.app/)
+## [<img width="200" src="./qr.png">](https://labify-delta.vercel.app/)
 
 ### Generate labs from video lecture
 
@@ -7,7 +7,21 @@
     ```bash
     $ git clone
     $ cd labify
+    $ vercel env pull .env
+    $ pnpm dlx prisma generate
+
     $ npm install
+    ```
+
+## Prisma Commands
+
+    ```bash
+    $ pnpm dlx prisma db push
+    $ pnpm dlx prisma studio
+    $ pnpm dlx prisma generate
+
+    $ pnpm dlx prisma migrate dev --name init
+    $ pnpm dlx prisma db pull
     ```
 
 ## Running the app
