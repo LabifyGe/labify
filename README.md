@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## [<img width="200" src="https://t4.ftcdn.net/jpg/01/78/76/71/360_F_178767166_PClhMfl7foAUMqscawjzOjDy6r5TjpLz.jpg">](https://labify-delta.vercel.app/)
 
-## Getting Started
+### Generate labs from video lecture
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    $ git clone
+    $ cd labify
+    $ npm install
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running the app
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    # development
+    $ npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    # production mode
+    $ npm run build
+    $ npm run start
+    ```
 
-## Learn More
+## Test
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    # unit tests
+    $ npm run test
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    # e2e tests
+    $ npm run test:e2e
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    # test coverage
+    $ npm run test:cov
+    ```
 
-## Deploy on Vercel
+## Stay in touch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Authors
+  - [Misho Dzuliashvili](https://github.com/LabifyGe/labify)
+  - [Luka Trapaidze](https://github.com/LabifyGe/labify)
+  - [Zuka Kenchuashvili](https://github.com/LabifyGe/labify)
+  - [Giga Samkharadze](https://github.com/LabifyGe/labify)
+- Website - [Labify](https://labify-delta.vercel.app/)
+- Discord - [Labify](https://discord.gg/RKZRFXMsCt)
+- GitHub - [Labify](https://github.com/LabifyGe/labify)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Requirements
+
+- [Node.js](https://nodejs.org/en/) (>= 18.0.0)
+  <!-- - [Docker](https://www.docker.com/) -->
+  <!-- - [Docker Compose](https://docs.docker.com/compose/) -->
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+
+<!-- ### License -->
+
+<!-- Labify is [MIT licensed](). -->
+
+<a href="https://www.patreon.com/"><img width="20" src="https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg?avatarHeight=36&width=60"></a>
+<a href="https://www.paypal.me/"><img src="https://img.shields.io/badge/Donate-PayPal-blue.svg"></a>
