@@ -10,16 +10,13 @@ type SplitContainerProps = {};
 export default function SplitContainer({}: SplitContainerProps) {
   return (
     <div className="container grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-12 md:pb-24">
-      <div className="py-6 md:order-1 hidden md:block"></div>
-      <div className={"lg:order-last"}>
-        <Image
-          src="https://img.freepik.com/free-vector/researchers-working-science-lab-together_23-2148486108.jpg"
-          alt="Main Image"
-          height={0}
-          width={0}
-          className="h-[400px] w-full"
-        />
-      </div>
+      <Image
+        src="/lab1.svg"
+        alt="Main Image"
+        height={0}
+        width={0}
+        className="max-h-[400px] mb-10 md:mb-0 w-full block lg:order-last"
+      />
       <div>
         <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
           Generate labs from video lectures

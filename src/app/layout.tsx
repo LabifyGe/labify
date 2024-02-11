@@ -34,6 +34,7 @@ export default function RootLayout({
         >
           <Navbar />
           {children}
+          <div className="mb-20"></div>
           <Footer />
         </ThemeProvider>
       </body>
