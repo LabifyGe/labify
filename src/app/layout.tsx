@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/partials/Navbar";
 import Footer from "@/components/partials/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { BackgroundAnimation } from "@/components/shared/BackgroundAnimation";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           {children}
           <div className="mb-20"></div>
           <Footer />
+          {/* <BackgroundAnimation /> */}
         </ThemeProvider>
       </body>
     </html>
