@@ -4,11 +4,18 @@ import { useFormState } from "react-dom";
 import { SubmitButton } from "./SubmitButton";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadVideo from "@/app/actions/uploadVideo";
-import { ChangeEvent, useState } from "react";
-
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 const initialState = {
   message: "",
 };
+
+const ffmpeg = createFFmpeg({
+  log: true,
+  corePath: "/ffmpeg-core/dist/ffmpeg-core.js",
+  // corePath: "./node_modules/@ffmpeg/core/ffmpeg-core.js",
+});
 
 export default function UploadVideo() {
   const [state, formAction] = useFormState(uploadVideo, initialState);
@@ -16,8 +23,57 @@ export default function UploadVideo() {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.files && e.target.files[0] && setFile(e.target.files[0]);
   };
+  const [ready, setReady] = useState(false);
+  const load = async () => {
+    console.group("load");
+    await ffmpeg.load();
+    setReady(true);
+    console.groupEnd();
+    console.log("ready");
+  };
+  const handleOnClick = () => {
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    convertToMp3(file)
+  }
+
+  const convertToMp3 = async (video: File) => {
+    const ext = "mp4";
+    // Write the file to memory
+    ffmpeg.FS("writeFile", `input${ext}`, await fetchFile(video));
+    // Run the FFmpeg command
+    // await ffmpeg.run("-i", `input${ext}`, "-vn", "-acodec", "copy", "out.aac");
+    await ffmpeg.run("-i", `input${ext}`, "-q:a", "0", "-map", "a", "out.mp3");
+    const data = ffmpeg.FS("readFile", "out.mp3");
+
+    const name = video.name.replace(/\.[^/.]+$/, "");
+    const size = (data.length / 1024 / 1024).toFixed(1) + "MB";
+
+    const blobUrl = URL.createObjectURL(
+      new Blob([data.buffer], { type: "audio/mp3" })
+    );
+
+    // setConverting(false);
+    // setAudioFiles([...audioFiles, { blobUrl, name, size }]);
+
+    // donwload the file
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = `${name}.mp3`;
+    a.click();
+    console.log("done");
+  };
+
+  useEffect(() => {
+    load();
+  },[])
+
+  if (!ready) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <form action={formAction}>
+    <div>
       <div className="flex justify-center mt-20 ">
         <div className="max-w-[300px] rounded-lg  w-full">
           <div className="m-4 ">
@@ -48,10 +104,13 @@ export default function UploadVideo() {
             </div>
           </div>
           <div className="flex justify-center p-2">
-            <SubmitButton isFileTouched={!!file} />
+            {/* <SubmitButton  isFileTouched={!!file} /> */}
+            <Button onClick={handleOnClick} >
+              Upload
+            </Button>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
