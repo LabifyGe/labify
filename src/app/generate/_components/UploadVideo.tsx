@@ -1,13 +1,11 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { SubmitButton } from "./SubmitButton";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadVideo from "@/app/actions/uploadVideo";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import {GoogleGenerativeAI } from "google-generative-ai";
+import {pp} from "./pp"
 
 
 const initialState = {
@@ -18,10 +16,40 @@ const ffmpeg = createFFmpeg({
   log: true,
   corePath: "/ffmpeg-core/dist/ffmpeg-core.js",
 });
+const fetchData = async (prompt: string) => {
+  try {
+    const apiKey = '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'; // Replace with your actual OpenAI API key
+    const apiUrl = 'https://api.openai.com/v1/chat/completions'; // Replace with the correct API endpoint
 
+    console.log('Fetching data...');
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: 'You are lab expert teacher and mentor who can create amazing programming and math exercises. you must use html language to generate question and answers, explanations and exercises, ${pp},' },
+          { role: 'user', content: ` Generate exercises and question from the following text: ${prompt}` },
+        ],
+      }),
+    });
+
+    const data = await response.json();
+
+
+    // Handle the response data as needed
+    console.log('OpenAI API Response:', data.choices[0].message.content);
+    // setResponse(data.choices[0].message.content);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 
-const SpeechRecognition = (audioFile) => {
+const SpeechRecognition = (audioFile: File) => {
   const speechConfig = sdk.SpeechConfig.fromSubscription(`2ad31b78d8ea4662bf1118adfb50b547`, `germanywestcentral`);
   speechConfig.speechRecognitionLanguage = "en-US";
 
@@ -56,17 +84,11 @@ const SpeechRecognition = (audioFile) => {
   });
 };
 
-const sendToGemini = async (text) => {
-  const gemini = new GoogleGenerativeAI();
-  const chatSession = new gemini.ChatSession('AIzaSyBtLyfQz57KPALQl1I9QOu-vcn_eogtuLs', 'gemini-pro');
-  const result = await chatSession.sendMessage(text);
-  console.log(result);
-}
-
 export default function UploadVideo() {
   // const [state, formAction] = useFormState(uploadVideo, initialState);
   const [file, setFile] = useState<File | null>(null);
-  const handleOnChange = (e) => {
+  const [loading, setLoading] = useState(false);
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.files && e.target.files[0] && setFile(e.target.files[0]);
     if(e.target.files && e.target.files[0]){
       const audioFile = e.target.files[0];
@@ -88,9 +110,8 @@ export default function UploadVideo() {
     convertToMp3(file)
   }
 
-  const convertToMp3 = async (video) => {
+  const convertToMp3 = async (video: File) => {
     const ext = "mp4";
-    // Write the file to memory
     ffmpeg.FS("writeFile", `input${ext}`, await fetchFile(video));
     // Run the FFmpeg command
     // await ffmpeg.run("-i", `input${ext}`, "-vn", "-acodec", "copy", "out.aac");
@@ -104,17 +125,12 @@ export default function UploadVideo() {
       new Blob([data.buffer], { type: "audio/mp3" })
     );
 
-    // setConverting(false);
-    // setAudioFiles([...audioFiles, { blobUrl, name, size }]);
-
-    // donwload the file
     const a = document.createElement("a");
     a.href = blobUrl;
     a.download = `${name}.mp3`;
     a.click();
     console.log("done");
 
-  //   create and append audio element
     const audio = new Audio(blobUrl);
     audio.controls = true;
     document.body.appendChild(audio);
@@ -122,9 +138,41 @@ export default function UploadVideo() {
   };
 
   useEffect(() => {
-    sendToGemini("hello");
+    // const file = new Blob(["Variables and Data Types\n" +
+    fetchData("Variables and Data Types\n" +
+        "In the previous chapter, you learned that a variable is a unit of data with an identifier, which is held in\n" +
+        "your computer's memory; it can be changed by putting a new value into it or modifying the value that is\n" +
+        "already there. In this chapter, I will be introducing some of the different types of variable that are\n" +
+        "available for you to use in your programs, and I’ll be showing you how to build them into the expressions\n" +
+        "and statements of Python that will allow you to turn your designs into working code. This is where you\n" +
+        "start to do some real programming. You will be creating two programs from scratch in this chapter: one\n" +
+        "to manipulate and format simple text strings and a script that performs a mathematical calculation. All\n" +
+        "this is made possible by using variables.\n" +
+        "Using variables allows you to specify a calculation or method for getting a result without having to\n" +
+        "know what values those variables will refer to beforehand. Any information that is put into the system\n" +
+        "must be turned into a variable before you can do anything to it, and it will be the contents of a variable\n" +
+        "that finally get sent back to the user that called the program.\n" +
+        "\n" +
+        "Choosing Good Identifiers\n" +
+        "Identifiers are the names used to identify things in your code. Python will regard any word that has not\n" +
+        "been commented out, delimited by quotation marks, or escaped in some other way as an identifier of\n" +
+        "some kind.\n" +
+        "An identifier is just a name label, so it could refer to more or less anything including commands, so\n" +
+        "it helps to keep things readable and understandable if you choose sensible names. You need to be\n" +
+        "careful to avoid choosing names that are already being used in your current Python session to identify\n" +
+        "your new variables. Choosing the same name as something else can make the original item with that\n" +
+        "name inaccessible.\n" +
+        "This could be particularly bad if the name you choose is an essential part of the Python language,\n" +
+        "but luckily Python does not allow you to name variables after any essential parts of the language.\n" +
+        "Therefore, the next section contains an overview of the most important words used in Python, so you\n" +
+        "can avoid this problem; this is the territory that you will be exploring and learning to work with over the\n" +
+        "course of this book.\n" +
+        "\n" +
+        "Python Keywords\n" +
+        "The following words are the keywords, which form the basis of the Python language. You are not allowed\n" +
+        "to use these words to name your variables, because these are the core commands of Python. They must" );
     load();
-    convertToMp3(file);
+    convertToMp3(file!);
   },[])
 
   if (!ready) {

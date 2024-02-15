@@ -1,11 +1,18 @@
 "use server";
 import { redirect } from "next/navigation";
-import {GoogleGenerativeAI } from "google-generative-ai";
+// import {GoogleGenerativeAI } from "google-generative-ai";
 
-export default async function uploadVideo(prompt: String) {
+export default async function uploadVideo(prompt) {
 
   //
-  console.log("sending to gemini");
+  // console.log("sending to gemini");
+  //
+  //   const gemini = new GoogleGenerativeAI();
+  //   const result = await gemini.createVideoFromText(prompt);
+  //   console.log(result);
+  //   // redirect to the lab page
+
+
 
   redirect(`/labs/1`);
   return {
