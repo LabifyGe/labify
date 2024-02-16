@@ -41,6 +41,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "youtube-caption-extractor": "^1.4.3",
+    "youtube-captions-scraper": "^2.0.2",
     "youtube-fetch-transcript": "^1.0.0",
     "youtube-transcript": "^1.0.6"
   },
