@@ -9,7 +9,6 @@ import { useTheme } from "next-themes";
 export function BackgroundAnimation() {
   const [init, setInit] = useState(false);
   const { theme, systemTheme } = useTheme();
-  console.log(theme);
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
@@ -42,7 +41,7 @@ export function BackgroundAnimation() {
             color: {
               value:
                 theme === "dark" ||
-                (theme === "system" && systemTheme === "dark")
+                  (theme === "system" && systemTheme === "dark")
                   ? ["#ffffff"]
                   : ["#000000"],
             },
