@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 export default function UploadVideo() {
   const [lab, setLab] = useState("")
   const [loading, setLoading] = useState(false)
-
+  const ref = useRef<HTMLInputElement>(null)
   const getLab = async (text: string) => {
     const response = await fetch("/api/lab", {
       method: "POST",
@@ -26,16 +26,16 @@ export default function UploadVideo() {
     getLab(data.result)
   }
 
-  console.log(loading)
   if (loading) {
-    <div className="text-xl text-center">Lab will be here soon...</div>
+    return <div className="text-xl text-center">Lab will be here soon...</div>
   }
 
   if (lab.length === 0) {
     return <div className="flex justify-center flex-col items-center gap-5">
-      <Input className="w-auto" placeholder="Enter YT Video ID" type="text" defaultValue={"kO1kgl0p-Hw"} />
-      <Button onClick={() => {
-        fetchTranscript("kO1kgl0p-Hw")
+      <Input ref={ref} className="w-auto" placeholder="Enter YT Video ID" type="text" defaultValue={"rJzjDszODTI"} />
+      <Button onClick={(e) => {
+        e.preventDefault()
+        fetchTranscript(ref.current?.value || "")
       }}>Generate Lab</Button>
     </div>
   }
